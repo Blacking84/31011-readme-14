@@ -50,7 +50,7 @@ SQL;
 
 $post_comments = db_get_all($link, $sql_comments);
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $_POST['post_id'] = htmlspecialchars($_POST['post_id']);
 

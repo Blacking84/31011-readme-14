@@ -9,7 +9,7 @@ if (!empty($_SESSION)) {
 $errors = [];
 $data_post = [];
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($_POST['email'])) {
         $errors['email']['header'] = "E-mail";
         $errors['email']['text'] = "Не заполнено обязательное поле.";
@@ -60,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                    VALUES ("$login", "$filter_email", "$password", "$new_name");
         SQL;
         db_insert($link, $sql);
-        header("Location: login.php");
+        header("Location: index.php");
     }
 
     $data_post['email'] = $_POST['email'];

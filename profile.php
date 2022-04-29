@@ -79,10 +79,11 @@ switch ($show) {
         $posts = get_posts($link, $where_sql, $order_sql);
 
         foreach($posts as $key => $post){
+            $post_id = $post['id'];
             $sql_tags = <<<SQL
                 SELECT h.hashtag FROM `posts_hashtags` ph
                 INNER JOIN `hashtags` h ON h.id = ph.hashtag_id
-                WHERE ph.post_id = "$post[id]";
+                WHERE ph.post_id = $post_id;
             SQL;
             $post_tag = db_get_all($link, $sql_tags);
             $posts[$key]['tags'] = array_column($post_tag, 'hashtag');

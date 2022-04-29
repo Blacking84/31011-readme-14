@@ -1,10 +1,10 @@
 -- Добавление типов контента
 INSERT INTO `content_types` (`name`, `type`, `icon`)
-       VALUES               ('Текст', 'post-text', 'text.png'),
-                            ('Цитата', 'post-quote', 'quote.png'),
-                            ('Картинка', 'post-photo', 'photo.png'),
-                            ('Видео', 'post-video', 'video.png'),
-                            ('Ссылка', 'post-link', 'link.png');
+       VALUES               ('Текст', 'text', 'text.png'),
+                            ('Цитата', 'quote', 'quote.png'),
+                            ('Картинка', 'photo', 'photo.png'),
+                            ('Видео', 'video', 'video.png'),
+                            ('Ссылка', 'link', 'link.png');
 
 -- Добавление пользователей
 INSERT INTO `users` (`login`, `email`, `password`, `avatar`)

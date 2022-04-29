@@ -23,7 +23,7 @@ $ctype_name = array_search($ctype, $type_name);
 $errors = [];
 $data_post = [];
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user_id = $_SESSION['user_id'];
     foreach ($_POST as $key => $value) {
         $_POST[$key] = htmlspecialchars($value);
@@ -79,9 +79,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 }
             } elseif ($_POST['photo_link']) {
                 $filter_url = filter_var($_POST['photo_link'], FILTER_VALIDATE_URL);
-                if ($filter_url != false) {
+                if ($filter_url !== false) {
                     $file = file_get_contents($filter_url);
-                    if ($file != false) {
+                    if ($file !== false) {
                         $tmp_name = "tmp_" . uniqid();
                         file_put_contents("uploads/" . $tmp_name, $file);
                         $finfo = finfo_open(FILEINFO_MIME_TYPE);
@@ -166,23 +166,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $errors['ctype']['text'] = "Выбрана не существующая категория.";
     }
 
-
+    $post_tags = [];
+    if ($_POST['tags']) {
+        $post_tags = explode(" ", $_POST['tags']);
+        if (count($post_tags) === 0) {
+            $errors['ctype']['header'] = "Теги";
+            $errors['ctype']['text'] = "Не указаны хештеги.";
+        }
+    } else {
+        $errors['tags']['header'] = "Теги";
+        $errors['tags']['text'] = "Не указаны хештеги.";
+    }
 
 
     if (count($errors) === 0) {
         $post_id = db_insert($link, $sql);
-
-        $post_tags = [];
-        if ($_POST['tags']) {
-            $post_tags = explode(" ", $_POST['tags']);
-            if (count($post_tags) === 0) {
-                $errors['ctype']['header'] = "Теги";
-                $errors['ctype']['text'] = "Не указаны хештеги.";
-            }
-        } else {
-            $errors['tags']['header'] = "Теги";
-            $errors['tags']['text'] = "Не указаны хештеги.";
-        }
 
         $hashtagsString = "'" . implode("', '", $post_tags) . "'";
         $sql = 'SELECT `id`, `hashtag` FROM `hashtags` WHERE `hashtag` IN (' . $hashtagsString . ');';
@@ -199,7 +197,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $new_tags_string = implode("'), ('", $new_tags);
         $sql_new_tags = "INSERT INTO `hashtags` (`hashtag`) VALUES ('" . $new_tags_string . "');";
 
-        if ($new_tags_string == true) {
+        if ($new_tags_string === true) {
             db_insert($link, $sql_new_tags);
         }
 
@@ -210,7 +208,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $old_tags_string = $post_id . "', '" . implode("'), ('" . $post_id . "', '", $hashtagsIds);
         $sql_old_tags = "INSERT INTO `posts_hashtags` (`post_id`, `hashtag_id`) VALUES ('" . $old_tags_string . "');";
 
-        if ($old_tags_string == true) {
+        if ($old_tags_string === true) {
             db_insert($link, $sql_old_tags);
         }
 

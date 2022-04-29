@@ -6,7 +6,7 @@ $errors = [];
 $auth_user = [];
 $data_post = [];
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (empty($_POST['email'])) {
         $errors['email']['header'] = "E-mail";

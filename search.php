@@ -11,7 +11,7 @@ $search = filter_input(INPUT_GET, 'search');
 $search = trim($search);
 if (!empty($search)) {
     $search_hashtag = substr($search, 0, 1);
-    if ($search_hashtag == "#") {
+    if ($search_hashtag === "#") {
         $name_hashtag = substr($search, 1);
 
         $where_sql = "WHERE h.hashtag = '" . $name_hashtag . "'";
